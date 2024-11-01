@@ -550,6 +550,8 @@ form a{
 
 .cartt{
     align-content: center;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 .cartt h4{
     color:#fff ;
@@ -582,7 +584,12 @@ form a{
     margin-left: 10px; 
 }
 
-
+.btn-checkout{
+    background-color: #ff523b;
+    color: #fff;
+    padding: 10px 20px;
+    margin-left: 1000px
+}
 
 
 
