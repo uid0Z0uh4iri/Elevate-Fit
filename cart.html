@@ -56,19 +56,11 @@
                 <tr>
                     <th>Product</th>
                     <th>Quantity</th>
-                    <th>Subtotal</th>
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody id="cart-items"></tbody>
             <tfoot>
-                <tr>
-                    <td colspan="2">Subtotal</td>
-                    <td id="subtotal-price">$0.00</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Tax</td>
-                    <td id="tax-price">$0.00</td>
-                </tr>
                 <tr>
                     <td colspan="2">Total</td>
                     <td id="total-price">$0.00</td>
@@ -133,7 +125,9 @@
     </div>
 
 <script>
-    // Display cart items in the table
+
+
+// Display cart items in the table
 function displayCartItems() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartContainer = document.getElementById('cart-items');
@@ -141,71 +135,67 @@ function displayCartItems() {
     if (cart.length === 0) {
         cartContainer.innerHTML = "<tr><td colspan='3'>The cart is empty</td></tr>";
     } else {
-        cartContainer.innerHTML = cart.map((item, index) => `
+        cartContainer.innerHTML = cart.map((item, index) => {
+            // Ensure quantity is at least 1
+            const quantity = item.quantity || 1;
+            // Clean price
+            const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
+            return `
             <tr>
                 <td>
                     <img src="${item.image}" width="50" alt="${item.name}">
                     <p>${item.name}</p>
-                    <p>Price: $${item.price}</p>
+                    <p>Price: $${cleanPrice}</p>
                     <span class="remove-btn" onclick="removeItem(${index})">Remove</span>
                 </td>
                 <td>
-                    <input type="number" class="quantity-input" value="${item.quantity}" 
-                           onchange="updateQuantity(${index}, this.value)">
+                    <input type="number" class="quantity-input" value="${quantity}" 
+                           onchange="updateQuantity(${index}, this.value)" min="1">
                 </td>
-                <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                <td>$${(parseFloat(cleanPrice) * quantity).toFixed(2)}</td>
             </tr>
-        `).join('');
+        `}).join('');
     }
     updateTotal();
 }
 
 // Update quantity when the user changes it
 function updateQuantity(index, quantity) {
-    
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log(cart[0].price);
-    const totalPrice = cart[0].price ;
-    // if (quantity < 1) quanti1; // Quantity can't be less than 1
-    // cart[index].quantity = parseInt(quantity);
-    document.getElementById("total-price").textContent = `${parseInt(totalPrice)}` ;
+    quantity = parseInt(quantity) || 1; // Default to 1 if parsing fails
+    if (quantity < 1) quantity = 1;
+    cart[index].quantity = quantity;
     localStorage.setItem('cart', JSON.stringify(cart));
     displayCartItems();
 }
-updateQuantity();
-ty = 
+
 // Remove an item from the cart
 function removeItem(index) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.splice(index, 1); // Remove the specified item from the cart
+    cart.splice(index, 1);
     localStorage.setItem('cart', JSON.stringify(cart));
     displayCartItems();
 }
 
-// Update subtotal, tax, and total amounts
+// Update total amount
 function updateTotal() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    console.log(cart); 
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const tax = subtotal * 0.15; // Assuming a tax rate of 15%
-    const total = subtotal + tax;
-    console.log(cart[0].price);  
-
-    document.getElementById('subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
-    document.getElementById('tax-price').textContent = `$${tax.toFixed(2)}`;
-    document.getElementById('total-price').textContent = `${cart[0].price}`;
+    const total = cart.reduce((sum, item) => {
+        const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
+        const price = parseFloat(cleanPrice);
+        const quantity = parseInt(item.quantity) || 1; // Default to 1 if quantity is empty
+        return sum + (price * quantity);
+    }, 0);
+    document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
 }
 
 // Proceed to checkout
 function proceedToCheckout() {
     alert("Proceeding to checkout...");
-    // Additional code to navigate to the actual checkout page can be added here
 }
 
 // Display items on page load
 document.addEventListener("DOMContentLoaded", displayCartItems);
-
-
 </script>
 
 </body>
