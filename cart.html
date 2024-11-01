@@ -162,13 +162,18 @@ function displayCartItems() {
 
 // Update quantity when the user changes it
 function updateQuantity(index, quantity) {
+    
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    if (quantity < 1) quantity = 1; // Quantity can't be less than 1
-    cart[index].quantity = parseInt(quantity);
+    console.log(cart[0].price);
+    const totalPrice = cart[0].price ;
+    // if (quantity < 1) quanti1; // Quantity can't be less than 1
+    // cart[index].quantity = parseInt(quantity);
+    document.getElementById("total-price").textContent = `${parseInt(totalPrice)}` ;
     localStorage.setItem('cart', JSON.stringify(cart));
     displayCartItems();
 }
-
+updateQuantity();
+ty = 
 // Remove an item from the cart
 function removeItem(index) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -180,13 +185,15 @@ function removeItem(index) {
 // Update subtotal, tax, and total amounts
 function updateTotal() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log(cart); 
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const tax = subtotal * 0.15; // Assuming a tax rate of 15%
     const total = subtotal + tax;
+    console.log(cart[0].price);  
 
     document.getElementById('subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('tax-price').textContent = `$${tax.toFixed(2)}`;
-    document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+    document.getElementById('total-price').textContent = `${cart[0].price}`;
 }
 
 // Proceed to checkout
