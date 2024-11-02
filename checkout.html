@@ -211,20 +211,22 @@
                 </label>
             </form>
             <div class="Yorder">
-                <table>
-                    <tr>
-                        <th colspan="2">Your order</th>
-                    </tr>
-                    <tr>
-                        <td>Product Name x (Qty)</td>
-                        <td>00.00</td>
-                    </tr>
-
-                    <tr>
-                        <td>Shipping</td>
-                        <td>Free shipping</td>
-                    </tr>
-                </table>
+                 
+                <div class="Yorder">
+                    <table id="orderSummaryTable">
+                        <tr>
+                            <th colspan="2">Your order</th>
+                        </tr>
+                        <!-- Cart items will be inserted here dynamically -->
+                        <tr>
+                            <td>Shipping</td>
+                            <td>Free shipping</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td id="totalAmount"><strong>$0.00</strong></td>
+                        </tr>
+                    </table>
 
                 <div>
                     <input type="radio" name="dbt" value="dbt" checked> Direct Bank Transfer
@@ -246,6 +248,63 @@
             </div><!-- Yorder -->
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            displayOrderSummary();
+        });
+        
+        function displayOrderSummary() {
+            // Get cart data from localStorage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const orderTable = document.getElementById('orderSummaryTable');
+            let total = 0;
+        
+            // Clear existing rows (except header and footer)
+            while (orderTable.rows.length > 2) {
+                orderTable.deleteRow(1);
+            }
+        
+            // Display cart items and calculate total
+            cart.forEach(item => {
+                const row = orderTable.insertRow(1);
+                const nameCell = row.insertCell(0);
+                const priceCell = row.insertCell(1);
+                
+                const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
+                const price = parseFloat(cleanPrice);
+                const quantity = parseInt(item.quantity) || 1;
+                const itemTotal = price * quantity;
+                
+                total += itemTotal;
+        
+                nameCell.textContent = `${item.name} × ${quantity}`;
+                priceCell.textContent = `$${itemTotal.toFixed(2)}`;
+            });
+        
+            // Update the total amount display
+            document.getElementById('totalAmount').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
+        }
+        
+        function placeOrder() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Add your form validation here if needed
+            
+            // Clear the cart
+            localStorage.removeItem('cart');
+            
+            // Show success message and redirect
+            alert('Order placed successfully!');
+            window.location.href = 'index.html';
+        }
+        </script>
 
 </body>
 

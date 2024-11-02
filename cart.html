@@ -1,159 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
-    <style>
-        /* Keep existing styles */
-        .error {
-            color: red;
-            font-size: 12px;
-            margin-top: -8px;
-            margin-bottom: 10px;
-        }
-        
-        .invalid {
-            border-color: red;
-        }
-    </style>
+    
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>elevateFit</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/detail.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+            rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!---- icon cdn link---->
+    
+    
+    
+    
+   
 </head>
 <body>
-    <div class="container">
-        <h1>Checkout</h1>
-        
-        <div class="checkout-grid">
-            <!-- Billing Details Form -->
-            <form id="checkoutForm" onsubmit="return validateForm(event)">
-                <h2>Billing Details</h2>
-                
-                <div class="form-group">
-                    <label for="name">Full Name*</label>
-                    <input type="text" id="name" name="name" required>
-                    <div class="error" id="nameError"></div>
+
+    <!--making header-->
+    <header>
+
+        <nav id="nav">
+
+            <img src="images/logo-white.png" class="logo">
+
+            <ul class="menu-bar-side">
+                <li><a href="index.html" style=" all: unset;">Home</a></li>
+                <li><a href="Products.html" style=" all: unset;">Shope</a></li>
+                <li><a href="#" style=" all: unset;">about</a></li>
+                <li><a href="#" style=" all: unset;">contact us</a></li>
+            </ul>
+
+            <ul class="menu-bar">
+
+                <li>&#36;0.00</li>
+                <li><i class='fas fa-shopping-cart'></i></li>
+
+            </ul>
+
+            <i class="fa fa-bars"></i>
+        </nav>
+
+    </header>
+
+    <section class="cartt">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2">Total</td>
+                    <td id="total-price">$0.00</td>
+                </tr>
+            </tfoot>
+        </table>
+        <button class="btn-checkout" onclick="proceedToCheckout()">Proceed to Checkout</button>
+    </section>
+    
+    
+
+    <!-------footer------->
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+
+
+                <div class="footer-col-1">
+                    <h3>Download Our App</h3>
+                    <p>Download App for Android and Ios mobile phone.</p>
+
+
+                    <div class="app-logo">
+                        <img src="images/play-store.png">
+                        <img src="images/app-store.png">
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    <label for="email">Email*</label>
-                    <input type="email" id="email" name="email" required>
-                    <div class="error" id="emailError"></div>
+                <div class="footer-col-2">
+                    <img src="images/logo-white.png">
+                    <p>Our purpose is To Sustainably Make the Pleasure and Benefits of Sports Accessible to the Many.
+                    </p>
                 </div>
 
-                <div class="form-group">
-                    <label for="phone">Phone*</label>
-                    <input type="tel" id="phone" name="phone" required>
-                    <div class="error" id="phoneError"></div>
+                <div class="footer-col-3">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li>Coupons</li>
+                        <li>Blog Post</li>
+                        <li>Return Policy</li>
+                        <li>Join Affiliate</li>
+                    </ul>
+
                 </div>
 
-                <div class="form-group">
-                    <label for="address">Address*</label>
-                    <input type="text" id="address" name="address" required>
-                    <div class="error" id="addressError"></div>
-                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                    </ul>
 
-                <div class="form-group">
-                    <label for="city">City*</label>
-                    <input type="text" id="city" name="city" required>
-                    <div class="error" id="cityError"></div>
                 </div>
-
-                <div class="form-group">
-                    <label for="country">Country*</label>
-                    <select id="country" name="country" required>
-                        <option value="">Select Country</option>
-                        <option value="USA">USA</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Mexico">Mexico</option>
-                    </select>
-                    <div class="error" id="countryError"></div>
-                </div>
-
-                <!-- Order Summary section remains the same -->
-                <button type="submit" class="submit-btn">Place Order</button>
-            </form>
+            </div>
+            <!--add horizontal line and copyright text along with clickable link-->
+            <hr>
+            <a href="" class="copyright">Copyright 2024 - Made with ❤️ LorenzCipher</a>
         </div>
     </div>
 
-    <script>
-        function validateForm(event) {
-            event.preventDefault();
-            let isValid = true;
-            
-            // Reset previous errors
-            document.querySelectorAll('.error').forEach(error => error.textContent = '');
-            document.querySelectorAll('input, select').forEach(input => input.classList.remove('invalid'));
+<script>
 
-            // Validate Full Name
-            const name = document.getElementById('name');
-            if (!name.value.trim()) {
-                document.getElementById('nameError').textContent = 'Name is required';
-                name.classList.add('invalid');
-                isValid = false;
-            } else if (name.value.trim().length < 2) {
-                document.getElementById('nameError').textContent = 'Name must be at least 2 characters';
-                name.classList.add('invalid');
-                isValid = false;
-            }
 
-            // Validate Email
-            const email = document.getElementById('email');
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!email.value.trim()) {
-                document.getElementById('emailError').textContent = 'Email is required';
-                email.classList.add('invalid');
-                isValid = false;
-            } else if (!emailRegex.test(email.value)) {
-                document.getElementById('emailError').textContent = 'Please enter a valid email';
-                email.classList.add('invalid');
-                isValid = false;
-            }
+// Display cart items in the table
+function displayCartItems() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartContainer = document.getElementById('cart-items');
+    
+    if (cart.length === 0) {
+        cartContainer.innerHTML = "<tr><td colspan='3'>The cart is empty</td></tr>";
+    } else {
+        cartContainer.innerHTML = cart.map((item, index) => {
+            // Ensure quantity is at least 1
+            const quantity = item.quantity || 1;
+            // Clean price
+            const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
+            return `
+            <tr>
+                <td>
+                    <img src="${item.image}" width="50" alt="${item.name}">
+                    <p>${item.name}</p>
+                    <p>Price: $${cleanPrice}</p>
+                    <span class="remove-btn" onclick="removeItem(${index})">Remove</span>
+                </td>
+                <td>
+                    <input type="number" class="quantity-input" value="${quantity}" 
+                           onchange="updateQuantity(${index}, this.value)" min="1">
+                </td>
+                <td>$${(parseFloat(cleanPrice) * quantity).toFixed(2)}</td>
+            </tr>
+        `}).join('');
+    }
+    updateTotal();
+}
 
-            // Validate Phone
-            const phone = document.getElementById('phone');
-            const phoneRegex = /^\d{10}$/;
-            if (!phone.value.trim()) {
-                document.getElementById('phoneError').textContent = 'Phone number is required';
-                phone.classList.add('invalid');
-                isValid = false;
-            } else if (!phoneRegex.test(phone.value)) {
-                document.getElementById('phoneError').textContent = 'Please enter a valid 10-digit phone number';
-                phone.classList.add('invalid');
-                isValid = false;
-            }
+// Update quantity when the user changes it
+function updateQuantity(index, quantity) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    quantity = parseInt(quantity) || 1; // Default to 1 if parsing fails
+    if (quantity < 1) quantity = 1;
+    cart[index].quantity = quantity;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    displayCartItems();
+}
 
-            // Validate Address
-            const address = document.getElementById('address');
-            if (!address.value.trim()) {
-                document.getElementById('addressError').textContent = 'Address is required';
-                address.classList.add('invalid');
-                isValid = false;
-            }
+// Remove an item from the cart
+function removeItem(index) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    displayCartItems();
+}
 
-            // Validate City
-            const city = document.getElementById('city');
-            if (!city.value.trim()) {
-                document.getElementById('cityError').textContent = 'City is required';
-                city.classList.add('invalid');
-                isValid = false;
-            }
+// Update total amount
+function updateTotal() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const total = cart.reduce((sum, item) => {
+        const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
+        const price = parseFloat(cleanPrice);
+        const quantity = parseInt(item.quantity) || 1; // Default to 1 if quantity is empty
+        return sum + (price * quantity);
+    }, 0);
+    document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+}
 
-            // Validate Country
-            const country = document.getElementById('country');
-            if (!country.value) {
-                document.getElementById('countryError').textContent = 'Please select a country';
-                country.classList.add('invalid');
-                isValid = false;
-            }
+// Proceed to checkout
+function proceedToCheckout() {
+    alert("Proceeding to checkout...");
+}
 
-            if (isValid) {
-                // If all validations pass, you can submit the form
-                alert('Order placed successfully!');
-                // Here you would typically submit the form to your backend
-                document.getElementById('checkoutForm').reset();
-            }
+// Display items on page load
+document.addEventListener("DOMContentLoaded", displayCartItems);
+</script>
 
-            return isValid;
-        }
-    </script>
 </body>
 </html>
