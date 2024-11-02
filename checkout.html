@@ -145,6 +145,10 @@
     cursor: pointer;
     background: #428a7d;
   }
+
+  .PaymentMethods{
+    margin: 20px;
+  }
 </style>
 
 </head>
@@ -212,7 +216,7 @@
             </form>
             <div class="Yorder">
                  
-                <div class="Yorder">
+                <div class>
                     <table id="orderSummaryTable">
                         <tr>
                             <th colspan="2">Your order</th>
@@ -228,17 +232,17 @@
                         </tr>
                     </table>
 
-                <div>
+                <div class="PaymentMethods">
                     <input type="radio" name="dbt" value="dbt" checked> Direct Bank Transfer
                 </div>
                 <p>
                     Make your payment directly into our bank account. Please use your Order ID as the payment reference.
                     Your order will not be shipped until the funds have cleared in our account.
                 </p>
-                <div>
+                <div class="PaymentMethods">
                     <input type="radio" name="dbt" value="cd"> Cash on Delivery
                 </div>
-                <div>
+                <div class="PaymentMethods">
                     <input type="radio" name="dbt" value="cd"> Paypal <span>
                         <img src="https://www.logolynx.com/images/logolynx/c3/c36093ca9fb6c250f74d319550acac4d.jpeg"
                             alt="" width="50">
@@ -250,61 +254,61 @@
     </div>
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            displayOrderSummary();
-        });
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    displayOrderSummary();
+});
+
+function displayOrderSummary() {
+    // Get cart data from localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const orderTable = document.getElementById('orderSummaryTable');
+    let total = 0;
+
+    // Clear existing rows (except header and footer)
+    while (orderTable.rows.length > 2) {
+        orderTable.deleteRow(1);
+    }
+
+    // Display cart items and calculate total
+    cart.forEach(item => {
+        const row = orderTable.insertRow(1);
+        const nameCell = row.insertCell(0);
+        const priceCell = row.insertCell(1);
         
-        function displayOrderSummary() {
-            // Get cart data from localStorage
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const orderTable = document.getElementById('orderSummaryTable');
-            let total = 0;
+        const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
+        const price = parseFloat(cleanPrice);
+        const quantity = parseInt(item.quantity) || 1;
+        const itemTotal = price * quantity;
         
-            // Clear existing rows (except header and footer)
-            while (orderTable.rows.length > 2) {
-                orderTable.deleteRow(1);
-            }
-        
-            // Display cart items and calculate total
-            cart.forEach(item => {
-                const row = orderTable.insertRow(1);
-                const nameCell = row.insertCell(0);
-                const priceCell = row.insertCell(1);
-                
-                const cleanPrice = item.price.toString().replace(/[^0-9.]/g, '');
-                const price = parseFloat(cleanPrice);
-                const quantity = parseInt(item.quantity) || 1;
-                const itemTotal = price * quantity;
-                
-                total += itemTotal;
-        
-                nameCell.textContent = `${item.name} × ${quantity}`;
-                priceCell.textContent = `$${itemTotal.toFixed(2)}`;
-            });
-        
-            // Update the total amount display
-            document.getElementById('totalAmount').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
-        }
-        
-        function placeOrder() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            
-            if (cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-            
-            // Add your form validation here if needed
-            
-            // Clear the cart
-            localStorage.removeItem('cart');
-            
-            // Show success message and redirect
-            alert('Order placed successfully!');
-            window.location.href = 'index.html';
-        }
-        </script>
+        total += itemTotal;
+
+        nameCell.textContent = `${item.name} × ${quantity}`;
+        priceCell.textContent = `$${itemTotal.toFixed(2)}`;
+    });
+
+    // Update the total amount display
+    document.getElementById('totalAmount').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
+}
+
+function placeOrder() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    // Add your form validation here if needed
+    
+    // Clear the cart
+    localStorage.removeItem('cart');
+    
+    // Show success message and redirect
+    alert('Order placed successfully!');
+    window.location.href = 'index.html';
+}
+</script>
 
 </body>
 
