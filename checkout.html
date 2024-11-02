@@ -291,22 +291,71 @@ function displayOrderSummary() {
     document.getElementById('totalAmount').innerHTML = `<strong>$${total.toFixed(2)}</strong>`;
 }
 
-function placeOrder() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+function validateForm() {
+    // Get all required fields
+    const firstName = document.querySelector('input[name="fname"]').value;
+    const lastName = document.querySelector('input[name="lname"]').value;
+    const country = document.querySelector('select[name="selection"]').value;
+    const address = document.querySelector('input[name="houseadd"]').value;
+    const city = document.querySelector('input[name="city"]').value;
+    const phone = document.querySelector('input[type="tel"]').value;
+    const email = document.querySelector('input[type="email"]').value;
     
-    if (cart.length === 0) {
-        alert('Your cart is empty!');
-        return;
+    // Basic validation
+    if (!firstName || !lastName) {
+        alert('Please enter your full name');
+        return false;
     }
     
-    // Adding validation form here!
+    if (!country) {
+        alert('Please select your country');
+        return false;
+    }
     
-    // Clear the cart
-    localStorage.removeItem('cart');
+    if (!address) {
+        alert('Please enter your address');
+        return false;
+    }
     
-    // Redirect to thank you page
-    window.location.href = 'thank-you.html';
+    if (!city) {
+        alert('Please enter your city');
+        return false;
+    }
+    
+    if (!phone) {
+        alert('Please enter your phone number');
+        return false;
+    }
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        alert('Please enter a valid email address');
+        return false;
+    }
+    
+    // Check if cart has items
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return false;
+    }
+    
+    return true;
 }
+
+function placeOrder() {
+    if (validateForm()) {
+        // Clear the cart
+        localStorage.removeItem('cart');
+        
+        // Redirect to thank you page
+        window.location.href = 'thank-you.html';
+    }
+}
+
+// Add click event listener to the Place Order button
+document.querySelector('button[type="button"]').addEventListener('click', placeOrder);
 </script>
 
 </body>
