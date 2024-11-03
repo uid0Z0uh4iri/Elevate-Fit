@@ -703,3 +703,52 @@ tfoot td {
 .cart-item img {
     width: 50px;
 }
+
+
+/* Add to your existing CSS */
+header nav {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+header nav img.logo {
+    height: 40px;
+    margin-right: 20px;
+}
+
+header nav .menu-bar {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+@media (min-width: 801px) {
+    header nav .fa-bars,
+    header nav .fa-remove {
+        display: none;
+    }
+
+    header nav .menu-bar-side {
+        display: flex;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 801px) {
+    .mobile-cart {
+        display: none;
+    }
+}
+
+@media (max-width: 800px) {
+    .mobile-cart {
+        display: block;
+    }
+    .mobile-cart a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
