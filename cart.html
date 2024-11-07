@@ -194,8 +194,18 @@ function updateTotal() {
 }
 
 // Proceed to checkout
+// Proceed to checkout
 function proceedToCheckout() {
-    alert("Proceeding to checkout...");
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Check if cart is empty
+    if (cart.length === 0) {
+        alert("Your cart is empty! Please add items before checking out.");
+        return;
+    }
+    
+    // If cart is not empty, redirect to checkout page
+    window.location.href = 'checkout.html';
 }
 
 // Display items on page load
